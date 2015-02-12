@@ -7,5 +7,7 @@ output: html_document
 
 ```{r}
 source("../01 Data/Dataframes.R", echo = TRUE)
+source("../02 Data Wrangling/Wranglers.R", echo = TRUE)
+source("../03 Visualizations/Visualizations.R", echo = TRUE)
 ```
 
