@@ -5,9 +5,54 @@ date: "Monday, February 09, 2015"
 output: html_document
 ---
 
+We first loaded the data frame of star data then loaded the necessary packages that allowed us to produce graphs and knit the html. We parsed the data from the oracle database of one of our group members and displayed the data frame utilizing print(head(df)).
+
+
 ```{r}
 source("../01 Data/Dataframes.R", echo = TRUE)
+```
+
+We then loaded the packages necessary to wrangle the data in workflows.
+
+For the first workflow we added the column lum_precent which took the cumulative distribution of the luminosity column and then filtered for the top 10% brightest stars in the data frame. We then loaded this into the variable firstG.
+
+```{r}
 source("../02 Data Wrangling/Wranglers.R", echo = TRUE)
+```
+
+For the first visualization we loaded the ggplot2 package to allow the rest of the markdown file to build graphs. We then took the variable firstG and utilized that data frame with ggplot to plot the distance of each start by its luminosity and colored them by distance. We also relabeled x-axis and y-axis labels to include proper names and units.
+
+```{r}
 source("../03 Visualizations/Visualizations.R", echo = TRUE)
 ```
 
+For our second interesting graph, we decided to plot the coordinates of stars that have proper names in the database. In our data wrangling file, we made the call:
+
+```df %>% filter(PROPER != "null") %>% tbl_df```
+
+We assigned this to the variable ```secondG```. The ```filter``` finds all of the stars in the database that have a proper name that is not equal to ```null``` and the ```tbl_df``` call creates a new tbl object with this data.
+```{r}
+source("../02 Data Wrangling/Wranglers2.R", echo = TRUE)
+```
+
+In our visualizations file, we make the plot:
+
+```ggplot(aes(x=X, y=Y, color=Z, label = PROPER)) + geom_point() + geom_text(hjust=-.1, vjust=0, size=3, angle = 45, color="black")```
+
+Here, we define the axes as the coordinates given in the database (i.e. ```x```, ```y```, and ```z```), and label each point in the scatterplot with their proper name. The ```geom_text``` function allows us to change the visual properties of each label, by changing the horizontal position with ```hjust```, the vertical position with ```vjust```, the size with ```size```, the angle with ```angle```, and the color with ```color```. We decided to change ```hjust``` so that the text didn't cover each point on the plot, and changed ```angle``` to ```45``` in order to minimize text overlap.
+```{r}
+source("../03 Visualizations/Visualizations2.R", echo = TRUE)
+```
+
+
+This 3rd dataframe will be grouped by a star's Spectral Type. We limited this to the main letter catergories. We then added a column dividing a star into 10 bins based on luminosity. Stars were then grouped by Spectral Type and every 10th Luminosity percentile with the average Absolute Magnitude and regular Magnitude.
+```{r}
+source("../02 Data Wrangling/Wranglers3.R", echo = TRUE)
+```
+
+
+In this graph, the stars are divided into bins, each representing a 10th percentile of Luminositry. 1 being the 1-10%, 10 being 90-100%. Within each graph, stars are grouped by the Spectral Type, aka color. These groupings are plotted via average relative magnitude by their average absolute magnitude.
+
+```{r}
+source("../03 Visualizations/Visualizations3.R", echo = TRUE)
+```
